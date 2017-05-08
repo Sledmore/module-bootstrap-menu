@@ -9,6 +9,7 @@ class Topmenu extends CoreTopmenu
     protected function _toHtml()
     {
         $this->setModuleName($this->extractModuleName(CoreTopmenu::class));
+
         return parent::_toHtml();
     }
 
@@ -29,18 +30,18 @@ class Topmenu extends CoreTopmenu
         $childrenCount = $children->count();
 
         $parentPositionClass = $menuTree->getPositionClass();
-        $itemPositionClassPrefix = $parentPositionClass ? $parentPositionClass . '-' : 'nav-';
+        $itemPositionClassPrefix = $parentPositionClass ? $parentPositionClass.'-' : 'nav-';
 
         foreach ($children as $child) {
             $child->setLevel($childLevel);
             $child->setIsFirst($counter == 1);
             $child->setIsLast($counter == $childrenCount);
-            $child->setPositionClass($itemPositionClassPrefix . $counter);
+            $child->setPositionClass($itemPositionClassPrefix.$counter);
 
             $caretCode = '';
             $anchorAttributes = '';
             if ($child->hasChildren() && $childLevel < 1) {
-                $anchorAttributes = 'class="dropdown-toggle" data-toggle="dropdown" role="button" ' .
+                $anchorAttributes = 'class="dropdown-toggle" data-toggle="dropdown" role="button" '.
                     'aria-haspopup="true" aria-expanded="false"';
                 $caretCode = ' <span class="caret"></span>';
             }
@@ -49,21 +50,21 @@ class Topmenu extends CoreTopmenu
                 $html .= '</ul></li><li class="column"><ul>';
             }
 
-            $html .= '<li ' . $this->_getRenderedMenuItemAttributes($child) . '>';
-            $html .= '<a href="' . $child->getUrl() . '" ' . $anchorAttributes . '>' .
-                $this->escapeHtml($child->getName()) . $caretCode . '</a>' .
+            $html .= '<li '.$this->_getRenderedMenuItemAttributes($child).'>';
+            $html .= '<a href="'.$child->getUrl().'" '.$anchorAttributes.'>'.
+                $this->escapeHtml($child->getName()).$caretCode.'</a>'.
                 $this->_addSubMenu(
                     $child,
                     $childLevel,
                     $childrenWrapClass,
                     $limit
-                ) . '</li>';
+                ).'</li>';
             $itemPosition++;
             $counter++;
         }
 
         if (count($colBrakes) && $limit) {
-            $html = '<li class="column"><ul>' . $html . '</ul></li>';
+            $html = '<li class="column"><ul>'.$html.'</ul></li>';
         }
 
         return $html;
@@ -82,7 +83,7 @@ class Topmenu extends CoreTopmenu
         }
 
         $submenuClass = $this->getSubmenuClass() ?: 'submenu';
-        $html .= '<ul class="level' . $childLevel . ' ' . $submenuClass . '">';
+        $html .= '<ul class="level'.$childLevel.' '.$submenuClass.'">';
         $html .= $this->_getHtml($child, $childrenWrapClass, $limit, $colStops);
         $html .= '</ul>';
 
@@ -98,9 +99,9 @@ class Topmenu extends CoreTopmenu
         $activeClass = $this->getActiveItemClass() ?: 'active';
         $hasActiveClass = $this->getHasActiveItemClass() ?: 'active';
         $lastClass = $this->getLastItemClass() ?: 'last';
-        $parentClass = $this->getParentItemClass() ?:'parent';
+        $parentClass = $this->getParentItemClass() ?: 'parent';
 
-        $classes[] = $levelClassPrefix . $item->getLevel();
+        $classes[] = $levelClassPrefix.$item->getLevel();
         $classes[] = $item->getPositionClass();
 
         if ($item->getIsFirst()) {
